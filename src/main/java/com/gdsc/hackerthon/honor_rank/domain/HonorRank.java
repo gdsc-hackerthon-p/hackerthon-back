@@ -1,11 +1,15 @@
 package com.gdsc.hackerthon.honor_rank.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "honor_rank")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class HonorRank {
     @Id
@@ -24,6 +28,6 @@ public class HonorRank {
     @Column(name = "week", nullable = false)
     private int week;
 
-    @Column(name = "year", nullable = false)
-    private int year;
+    @Column(name = "month", nullable = false)
+    private int month;
 }
