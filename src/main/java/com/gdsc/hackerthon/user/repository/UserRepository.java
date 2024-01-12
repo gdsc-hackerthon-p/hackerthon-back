@@ -10,12 +10,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByGithubEmail(String githubEmail);
+    Optional<User> findByGithubEmail(String githubEmail);
+
+    Optional<User> findByUsername(String username);
     Page<User> findAllByOrderByPointDesc(Pageable pageable);
 
-    boolean existsByGithubId(Long githubId);
+    boolean existsByGithubId(String githubId);
 
     List<User> findRival(int point);
 
