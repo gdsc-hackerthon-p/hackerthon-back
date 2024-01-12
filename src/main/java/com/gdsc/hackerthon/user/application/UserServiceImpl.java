@@ -40,9 +40,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean login(String githubEmail, String password) {
-        User user = userRepository.findByGithubEmail(githubEmail).orElseThrow(()
-                -> new UserException(ResponseCode.USER_NOT_FOUND));
+    public Boolean login(String username, String password) {
+        User user = userRepository.findByUsername(username).orElseThrow(()
+                -> new UserException(ResponseCode.USER_LOGIN_FAILURE));
 
         return passwordEncoder.matches(password, user.getPassword());
     }
