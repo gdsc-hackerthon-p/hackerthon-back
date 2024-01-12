@@ -5,4 +5,4 @@ resources:
 images:
 - name: synoti21/hackerthon-backend
   newName: synoti21/hackerthon-backend
-  newTag: 2433dd8e
+  newTag: 9bb2bc6a
