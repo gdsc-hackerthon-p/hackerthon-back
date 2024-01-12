@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-
+/*
 public interface RivalRepository extends JpaRepository<UserRival,Long> {
 
     @Query("SELECT ur FROM user_rival ur WHERE ur.toUserId = :userId OR ur.fromUserId = :userId")
@@ -16,3 +16,4 @@ public interface RivalRepository extends JpaRepository<UserRival,Long> {
 
 
 }
+*/
