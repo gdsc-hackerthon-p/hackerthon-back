@@ -1,6 +1,7 @@
 package com.gdsc.hackerthon.user.application;
 
 import com.gdsc.hackerthon.user.domain.User;
+import com.gdsc.hackerthon.user.dto.response.ResponseUserDto;
 import com.gdsc.hackerthon.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,7 +16,7 @@ public interface UserService {
     //회원 정보 조회
     User getUserInfo(Long id);
     //메인화면에서 유저들의 랭킹 조회
-    Page<User> getUsersWithRankingOfPoint(Pageable pageable);
+    Page<ResponseUserDto> getUsersWithRankingOfPoint(Pageable pageable);
     //회원 탈퇴
     void deleteUser(Long id);
     //회원 닉네임 변경

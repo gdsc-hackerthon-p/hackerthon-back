@@ -16,6 +16,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "username", unique = true, nullable = false)
+    private String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @Column(unique = true, nullable = false)
     private String nickname;
 
@@ -28,6 +34,9 @@ public class User {
     @Column()
     private int point;
 
+    @Column(name = "bio")
+    private String bio;
+
     @Column(name = "commit_streak", nullable = false)
     private int commitStreak;
 
@@ -35,7 +44,7 @@ public class User {
     private String githubUrl;
 
     @Column(name = "github_id", nullable = false)
-    private Long githubId;
+    private String githubId;
 
     public void updateNickname(String nickname) {
         this.nickname = nickname;
