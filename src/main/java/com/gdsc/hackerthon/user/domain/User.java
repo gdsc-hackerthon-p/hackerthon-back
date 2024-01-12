@@ -35,5 +35,14 @@ public class User {
     private String githubUrl;
 
     @Column(name = "github_id", nullable = false)
-    private int githubId;
+    private Long githubId;
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updatePoint(int point) {
+        this.point = point;
+    }
+
 }
