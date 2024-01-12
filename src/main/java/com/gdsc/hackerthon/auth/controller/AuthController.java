@@ -16,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
+import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.GHUser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
+@Slf4j
 @Tag(name = "Auth", description = "인증 API")
 @RestController
 @RequiredArgsConstructor
@@ -37,17 +39,22 @@ public class AuthController {
     @PostMapping("/register")
     public ApiResponse<Long> saveUser(@Valid @RequestBody CreateUserDto createUserDto) throws IOException {
         GHUser githubUser = githubService.getGithubUser(createUserDto.getGithubId());
-        int commitStreak = githubService.getCommitStreak(createUserDto.getGithubId());
+        log.info("githubUser: {}", githubUser);
+
 
         String encryptedPassword = userService.encryptPassword(createUserDto.getPassword());
 
         User user = User.builder()
+                .username(createUserDto.getUsername())
                 .githubId(createUserDto.getGithubId())
                 .githubEmail(githubUser.getEmail())
-                .commitStreak(commitStreak)
+                .commitStreak(0)
+                .bio(githubUser.getBio())
                 .nickname(createUserDto.getNickname())
                 .password(encryptedPassword)
                 .point(0)
+                .profileImageUrl(githubUser.getAvatarUrl())
+                .githubUrl(githubUser.getHtmlUrl().toString())
                 .build();
 
         return ApiResponse.success(userService.createUserWithGithubAccount(user).getId() ,"유저 생성 성공");

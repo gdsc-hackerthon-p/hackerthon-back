@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gdsc.hackerthon.util.api.ResponseCode;
 import com.gdsc.hackerthon.util.exception.UserException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.kohsuke.github.*;
 import org.springframework.stereotype.Service;
 
@@ -12,47 +13,46 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class GithubService {
 
     public int getCommitStreak(String githubId) throws IOException {
         GHUser user = getGithubUser(githubId);
-        return countConsecutiveCommits(user);
+        return countConsecutiveCommits(user, githubId);
     }
 
     public GHUser getGithubUser(String githubId) throws IOException {
         try{
-            GitHub github = new GitHubBuilder().build();
+            GitHub github = new GitHubBuilder().withOAuthToken("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").build();
+            log.info("githubId: {}", githubId);
             return github.getUser(githubId);
         }catch (IOException e) {
             throw new UserException(ResponseCode.GITHUB_USER_NOT_FOUND);
         }
     }
 
-    public int countConsecutiveCommits(GHUser user) throws IOException {
+    public int countConsecutiveCommits(GHUser user, String githubId) throws IOException {
         Calendar calendar = Calendar.getInstance();
         Set<Date> commitDates = new HashSet<>();
 
-        for (GHRepository repo : user.listRepositories()) {
-            for (GHCommit commit : repo.listCommits()) {
-                Date commitDate = commit.getCommitDate();
-                // 커밋 날짜를 날짜만 포함하도록 조정
-                calendar.setTime(commitDate);
-                calendar.set(Calendar.HOUR_OF_DAY, 0);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-                calendar.set(Calendar.MILLISECOND, 0);
-                commitDates.add(calendar.getTime());
-            }
-        }
-
+        GitHub github = new GitHubBuilder().withOAuthToken("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").build();
         int count = 0;
-        while (commitDates.contains(calendar.getTime())) {
-            count++;
+        //오늘부터 날짜를 거슬러 올라오면서 커밋이 한개라도 있으면 다음 날짜로 넘어가고, 커밋이 없으면 멈춤
+        while (true) {
+            GHCommitSearchBuilder commitSearchBuilder = github.searchCommits()
+                    .author(githubId)
+                    .committerDate(calendar.toString());
+
+            GHCommit[] commits = commitSearchBuilder.list().toArray();
+
+            if (commits.length == 0) {
+                break;
+            }
+            count += 1;
             calendar.add(Calendar.DATE, -1);
         }
-
         return count;
     }
 
