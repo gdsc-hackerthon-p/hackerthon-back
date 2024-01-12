@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByGithubEmail(String githubEmail);
     Page<User> findAllByOrderByPointDesc(Pageable pageable);
 
-    boolean existsByGithubId(Long githubId);
+    boolean existsByGithubId(String githubId);
 
     @Modifying
     @Transactional

@@ -20,6 +20,7 @@ public enum ResponseCode {
     // 404 Not Found
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, false, "사용자를 찾을 수 없습니다."),
     CHECK_NOT_FOUND(HttpStatus.NOT_FOUND, false, "체크를 찾을 수 없습니다."),
+    GITHUB_USER_NOT_FOUND(HttpStatus.NOT_FOUND, false, "깃허브 사용자를 찾을 수 없습니다."),
 
     // 409 Conflict
     USER_ALREADY_EXIST(HttpStatus.CONFLICT, false, "이미 가입한 사용자입니다."),

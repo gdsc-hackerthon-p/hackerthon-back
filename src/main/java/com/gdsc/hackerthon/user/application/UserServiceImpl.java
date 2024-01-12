@@ -1,6 +1,7 @@
 package com.gdsc.hackerthon.user.application;
 
 import com.gdsc.hackerthon.user.domain.User;
+import com.gdsc.hackerthon.user.dto.response.ResponseUserDto;
 import com.gdsc.hackerthon.user.repository.UserRepository;
 import com.gdsc.hackerthon.util.api.ResponseCode;
 import com.gdsc.hackerthon.util.exception.UserException;
@@ -17,7 +18,10 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     @Override
     public User createUserWithGithubAccount(User user) {
-        if(userRepository.existsById(user.getGithubId())){
+        if (userRepository.existsById(user.getId())) {
+            throw new UserException(ResponseCode.USER_ALREADY_EXIST);
+        }
+        if(userRepository.existsByGithubId(user.getGithubId())){
             throw new UserException(ResponseCode.USER_ALREADY_EXIST);
         }
         user.updatePoint(calculateUserPoint(user));
@@ -31,8 +35,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Page<User> getUsersWithRankingOfPoint(Pageable pageable) {
-        return userRepository.findAllByOrderByPointDesc(pageable);
+    public Page<ResponseUserDto> getUsersWithRankingOfPoint(Pageable pageable) {
+        return userRepository.findAllByOrderByPointDesc(pageable)
+                .map(ResponseUserDto::from);
     }
 
     @Override
