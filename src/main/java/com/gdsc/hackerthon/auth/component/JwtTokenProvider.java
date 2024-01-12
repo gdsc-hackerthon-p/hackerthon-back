@@ -24,7 +24,7 @@ public class JwtTokenProvider {
 
     private final UserDetailsService userDetailsService;
 
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256); //자체 키 생성
 
     public String createToken(String userPk) {
         Claims claims = Jwts.claims().setSubject(userPk);
@@ -57,6 +57,6 @@ public class JwtTokenProvider {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
-    }
+        return request.getHeader("Authorization Bearer");
+    } // Authorization이 아닌 Authorization Bearer로 해야함
 }

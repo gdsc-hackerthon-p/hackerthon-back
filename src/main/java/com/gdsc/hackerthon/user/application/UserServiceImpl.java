@@ -6,6 +6,7 @@ import com.gdsc.hackerthon.user.repository.UserRepository;
 import com.gdsc.hackerthon.util.api.ResponseCode;
 import com.gdsc.hackerthon.util.exception.UserException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
@@ -26,9 +28,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUserWithGithubAccount(User user) {
-        if (userRepository.existsById(user.getId())) {
-            throw new UserException(ResponseCode.USER_ALREADY_EXIST);
-        }
         if(userRepository.existsByGithubId(user.getGithubId())){
             throw new UserException(ResponseCode.USER_ALREADY_EXIST);
         }
