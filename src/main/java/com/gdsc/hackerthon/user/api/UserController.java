@@ -6,8 +6,10 @@ import com.gdsc.hackerthon.user.domain.User;
 import com.gdsc.hackerthon.user.dto.request.CreateUserDto;
 import com.gdsc.hackerthon.user.dto.response.ResponseUserDto;
 import com.gdsc.hackerthon.util.api.ApiResponse;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.models.annotations.OpenAPI31;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.kohsuke.github.GHUser;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-@Tag(name = "user", description = "유저 API")
+@Tag(name = "User", description = "유저 API")
 @RestController
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
@@ -25,8 +27,8 @@ public class UserController {
     private final UserService userService;
     private final GithubService githubService;
     //유저 정보 조회
-    @Operation(summary = "[유저] 유저 정보 조회", description = "유저의 정보를 조회합니다.")
     @GetMapping("/info/{userId}")
+    @Operation(summary = "[유저] 유저 정보 조회", description = "유저의 정보를 조회합니다.")
     public ApiResponse<ResponseUserDto> getUserInfo(@PathVariable Long userId){
         return ApiResponse.success(
                 ResponseUserDto.from(userService.getUserInfo(userId)),
