@@ -31,7 +31,7 @@ public class UserController {
     @Operation(summary = "[유저] 유저 정보 조회", description = "유저의 정보를 조회합니다.")
     public ApiResponse<ResponseUserDto> getUserInfo(@PathVariable Long userId){
         return ApiResponse.success(
-                ResponseUserDto.from(userService.getUserInfo(userId)),
+                ResponseUserDto.from(userService.getUserInfoWithId(userId)),
                 "유저 정보 조회 성공");
     }
 
