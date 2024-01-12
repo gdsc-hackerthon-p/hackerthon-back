@@ -1,6 +1,7 @@
 package com.gdsc.hackerthon.user.application;
 
 import com.gdsc.hackerthon.user.domain.User;
+import com.gdsc.hackerthon.user.domain.UserRival;
 import com.gdsc.hackerthon.user.dto.response.ResponseUserDto;
 import com.gdsc.hackerthon.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,4 +36,6 @@ public interface UserService {
     void resetAllUserPoint();
     //유저의 포인트 계산
     int calculateUserPoint(User user);
+    List<User> findRival(Long userId);
+    void updatePoint(Long userId, int newPoint);
 }

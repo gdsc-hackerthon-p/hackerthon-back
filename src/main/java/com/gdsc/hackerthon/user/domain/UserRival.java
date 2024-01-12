@@ -34,4 +34,6 @@ public class UserRival {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "from_user", insertable = false, updatable = false)
     private User fromUser;
+
+
 }
