@@ -26,7 +26,7 @@ public class GithubService {
 
     public GHUser getGithubUser(String githubId) throws IOException {
         try{
-            GitHub github = new GitHubBuilder().withOAuthToken(System.getenv("GITHUB_TOKEN")).build();
+            GitHub github = new GitHubBuilder().build();
             return github.getUser(githubId);
         }catch (IOException e) {
             throw new UserException(ResponseCode.GITHUB_USER_NOT_FOUND);
@@ -37,7 +37,7 @@ public class GithubService {
         Calendar calendar = Calendar.getInstance();
         Set<Date> commitDates = new HashSet<>();
 
-        GitHub github = new GitHubBuilder().withOAuthToken(System.getenv("GITHUB_TOKEN")).build();
+        GitHub github = new GitHubBuilder().build();
         int count = 0;
         //오늘부터 날짜를 거슬러 올라오면서 커밋이 한개라도 있으면 다음 날짜로 넘어가고, 커밋이 없으면 멈춤
         while (true) {
