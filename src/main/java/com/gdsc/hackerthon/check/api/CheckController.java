@@ -27,31 +27,31 @@ public class CheckController {
 
     private final CheckService checkService;
 
-    @PostMapping("/createCheck")
+    @PostMapping("/{id}")
     public ApiResponse<Check> createCheck(@RequestBody Check check) {
         Check createdCheck = checkService.createCheck(check);
         return ApiResponse.success(checkService.createCheck(createdCheck),"방명록 글쓰기 성공");
     }
 
-    @DeleteMapping("/deleteCheck/{id}")
+    @DeleteMapping("/{id}")
     public ApiResponse<Void> deleteCheck(@PathVariable Long id) {
         checkService.deleteCheck(id);
         return ApiResponse.success(null,"방명록 글삭제 성공");
     }
 
-    @PutMapping("/updateCheck/{id}")
+    @PutMapping("/{id}")
     public ApiResponse<Void> updateCheck(@PathVariable Long id, @RequestParam String content) {
         checkService.updateCheck(id,content);
         return ApiResponse.success(null,"방명록 글수정 성공");
     }
 
-    @GetMapping("/getCheck")
+    @GetMapping("/{id}")
     public ApiResponse<Check> getCheck(@PathVariable Long id) {
         Check check = checkService.getCheck(id);
         return ApiResponse.success(checkService.getCheck(id),"방명록 글 조회 성공");
     }
 
-    @GetMapping("/getAllChecksInDate")
+    @GetMapping("/AllChecksInDate")
     public ApiResponse<Page<Check>> getAllChecksInDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime checkDate,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
