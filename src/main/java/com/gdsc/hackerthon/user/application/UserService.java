@@ -21,6 +21,8 @@ public interface UserService {
     User getUserInfoWithId(Long id);
     //이메일 통한 회원 조회
     User getUserInfoWithEmail(String email);
+
+    User getUserInfoWithUsername(String username);
     //메인화면에서 유저들의 랭킹 조회
     Page<ResponseUserDto> getUsersWithRankingOfPoint(Pageable pageable);
     //회원 탈퇴

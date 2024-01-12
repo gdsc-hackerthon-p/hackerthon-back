@@ -63,11 +63,11 @@ public class AuthController {
     @Operation(summary = "[인증] 로그인 및 토큰 발급", description = "로그인을 처리하고, 로그인 성공 시 id와 Jwt 토큰을 발급합니다.")
     @PostMapping("/login")
     public ApiResponse<ResponseJwtDto> login(@RequestBody LoginUserDto loginUserDto){
-        Boolean isAuthorized = userService.login(loginUserDto.getEmail(), loginUserDto.getPassword());
+        Boolean isAuthorized = userService.login(loginUserDto.getUsername(), loginUserDto.getPassword());
         if (!isAuthorized) {
             throw new UserException(ResponseCode.USER_LOGIN_FAILURE);
         }
-        User user = userService.getUserInfoWithEmail(loginUserDto.getEmail());
+        User user = userService.getUserInfoWithUsername(loginUserDto.getUsername());
         String jwt = jwtTokenProvider.createToken(user.getId().toString());
         return ApiResponse.success(ResponseJwtDto.of(user.getId(), jwt), "로그인 성공");
 
