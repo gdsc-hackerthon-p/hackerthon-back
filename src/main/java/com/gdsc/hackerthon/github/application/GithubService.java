@@ -1,6 +1,8 @@
 package com.gdsc.hackerthon.github.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gdsc.hackerthon.util.api.ResponseCode;
+import com.gdsc.hackerthon.util.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.kohsuke.github.*;
 import org.springframework.stereotype.Service;
@@ -20,8 +22,12 @@ public class GithubService {
     }
 
     public GHUser getGithubUser(String githubId) throws IOException {
-        GitHub github = new GitHubBuilder().build();
-        return github.getUser(githubId);
+        try{
+            GitHub github = new GitHubBuilder().build();
+            return github.getUser(githubId);
+        }catch (IOException e) {
+            throw new UserException(ResponseCode.GITHUB_USER_NOT_FOUND);
+        }
     }
 
     public int countConsecutiveCommits(GHUser user) throws IOException {
@@ -49,5 +55,6 @@ public class GithubService {
 
         return count;
     }
+
 
 }
