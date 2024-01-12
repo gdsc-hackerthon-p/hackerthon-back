@@ -1,5 +1,6 @@
 package com.gdsc.hackerthon.user.application;
 
+import com.gdsc.hackerthon.github.application.GithubService;
 import com.gdsc.hackerthon.user.domain.User;
 import com.gdsc.hackerthon.user.dto.response.ResponseUserDto;
 import com.gdsc.hackerthon.user.repository.UserRepository;
@@ -7,11 +8,13 @@ import com.gdsc.hackerthon.util.api.ResponseCode;
 import com.gdsc.hackerthon.util.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.kohsuke.github.GitHub;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -20,6 +23,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final GithubService githubService;
 
     @Override
     public String encryptPassword(String password) {
@@ -36,9 +40,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean login(String githubEmail, String password) {
-        User user = userRepository.findByGithubEmail(githubEmail).orElseThrow(()
-                -> new UserException(ResponseCode.USER_NOT_FOUND));
+    public Boolean login(String username, String password) {
+        User user = userRepository.findByUsername(username).orElseThrow(()
+                -> new UserException(ResponseCode.USER_LOGIN_FAILURE));
 
         return passwordEncoder.matches(password, user.getPassword());
     }
@@ -87,7 +91,12 @@ public class UserServiceImpl implements UserService{
     public void updateAllUserPoint() {
         List<User> users = userRepository.findAll();
         for(User user : users){
-            user.updatePoint(calculateUserPoint(user));
+            try{
+                int commitCount = githubService.getCommitStreak(user.getGithubId());
+                userRepository.updateUserByIdAndPoint(user.getId(), commitCount * 100);
+            }catch (IOException e){
+                log.error("Github API Error");
+            }
         }
     }
 
