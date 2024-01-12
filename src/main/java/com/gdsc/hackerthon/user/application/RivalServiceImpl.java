@@ -3,7 +3,7 @@ package com.gdsc.hackerthon.user.application;
 import com.gdsc.hackerthon.user.domain.User;
 import com.gdsc.hackerthon.user.domain.UserPrevFirst;
 import com.gdsc.hackerthon.user.domain.UserRival;
-//import com.gdsc.hackerthon.user.repository.RivalRepository;
+import com.gdsc.hackerthon.user.repository.RivalRepository;
 import com.gdsc.hackerthon.user.repository.UserRepository;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-/*
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -35,7 +35,7 @@ public class RivalServiceImpl implements RivalService{
     }
 
      */
-/*
+
     @Override
     public void addRival(Long userId, Long rivalId){
         if (!userRepository.existsById(rivalId)){
@@ -68,4 +68,4 @@ public class RivalServiceImpl implements RivalService{
     }
 
 }
-*/
+
