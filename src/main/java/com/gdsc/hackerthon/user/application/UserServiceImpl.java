@@ -20,7 +20,8 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final GithubService githubService;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User createUserWithGithubAccount(User user) {
-        if(userRepository.existsByGithubId(user.getGithubId())){
+        if (userRepository.existsByGithubId(user.getGithubId())) {
             throw new UserException(ResponseCode.USER_ALREADY_EXIST);
         }
         user.updatePoint(calculateUserPoint(user));
@@ -90,11 +91,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateAllUserPoint() {
         List<User> users = userRepository.findAll();
-        for(User user : users){
-            try{
+        for (User user : users) {
+            try {
                 int commitCount = githubService.getCommitStreak(user.getGithubId());
                 userRepository.updateUserByIdAndPoint(user.getId(), commitCount * 100);
-            }catch (IOException e){
+            } catch (IOException e) {
                 log.error("Github API Error");
             }
         }
@@ -110,27 +111,28 @@ public class UserServiceImpl implements UserService{
         return user.getCommitStreak() * 100; //임시
     }
 
-    private void validateUserWithId(Long id){
-        if(!userRepository.existsById(id)){
+    private void validateUserWithId(Long id) {
+        if (!userRepository.existsById(id)) {
             throw new UserException(ResponseCode.USER_NOT_FOUND);
         }
     }
 
-    public List<User> findRival(Long userId){
+    public List<User> findRival(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
-        if (user == null){
+        if (user == null) {
             return null;
         }
         int userPoint = user.getPoint();
         return userRepository.findByPoint(userPoint);
     }
 
-    public void updatePoint(Long userId, int newPoint){
+    public void updatePoint(Long userId, int newPoint) {
         User userPoint = userRepository.findById(userId).orElse(null);
-        if (userPoint != null){
+        if (userPoint != null) {
             userPoint.getPoint();
             userRepository.save(userPoint);
         }
     }
+}
 
 

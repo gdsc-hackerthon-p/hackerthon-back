@@ -1,6 +1,6 @@
 package com.gdsc.hackerthon.user.api;
 
-//import com.gdsc.hackerthon.user.application.RivalService;
+import com.gdsc.hackerthon.user.application.RivalService;
 import com.gdsc.hackerthon.user.domain.User;
 import com.gdsc.hackerthon.user.domain.UserRival;
 import com.gdsc.hackerthon.github.application.GithubService;
@@ -29,7 +29,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-//    private final RivalService rivalService;
+    private final RivalService rivalService;
     private final GithubService githubService;
     //유저 정보 조회
     @GetMapping("/info/{userId}")
