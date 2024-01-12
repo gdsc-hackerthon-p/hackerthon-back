@@ -4,6 +4,7 @@ import com.gdsc.hackerthon.honor_rank.domain.HonorRank;
 import com.gdsc.hackerthon.honor_rank.repository.HonorRankRepository;
 import com.gdsc.hackerthon.user.domain.User;
 import com.gdsc.hackerthon.user.repository.UserRepository;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,6 @@ public class HonorRankServiceImpl implements HonorRankService {
     @Override
     public HonorRank getHonorRank(int month, int week) {
         return honorRankRepository.findByWeekAndMonth(week, month);
+
     }
 }
