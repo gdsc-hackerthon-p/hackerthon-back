@@ -21,7 +21,7 @@ public class GithubService {
 
     public int getCommitStreak(String githubId) throws IOException {
         GHUser user = getGithubUser(githubId);
-        return countConsecutiveCommits(user, githubId);
+        return countWeeklyCommits(user);
     }
 
     public GHUser getGithubUser(String githubId) throws IOException {
@@ -33,28 +33,25 @@ public class GithubService {
         }
     }
 
-    public int countConsecutiveCommits(GHUser user, String githubId) throws IOException {
-        Calendar calendar = Calendar.getInstance();
-        Set<Date> commitDates = new HashSet<>();
+    public int countWeeklyCommits(GHUser user) throws IOException {
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY); // 현재 주의 월요일로 설정
 
-        GitHub github = new GitHubBuilder().build();
+        Date weekStart = calendar.getTime();
         int count = 0;
-        //오늘부터 날짜를 거슬러 올라오면서 커밋이 한개라도 있으면 다음 날짜로 넘어가고, 커밋이 없으면 멈춤
-        while (true) {
-            GHCommitSearchBuilder commitSearchBuilder = github.searchCommits()
-                    .author(githubId)
-                    .committerDate(calendar.toString());
 
-            GHCommit[] commits = commitSearchBuilder.list().toArray();
-
-            if (commits.length == 0) {
-                break;
+        for (GHRepository repo : user.listRepositories()) {
+            for (GHCommit commit : repo.listCommits()) {
+                Date commitDate = commit.getCommitDate();
+                if (!commitDate.before(weekStart)) {
+                    count++;
+                }
             }
-            count += 1;
-            calendar.add(Calendar.DATE, -1);
         }
         return count;
     }
-
-
 }
