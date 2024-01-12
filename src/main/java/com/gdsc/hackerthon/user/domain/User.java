@@ -1,11 +1,15 @@
 package com.gdsc.hackerthon.user.domain;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity(name = "user")
 @Getter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 public class User {
     @Id
@@ -29,4 +33,16 @@ public class User {
 
     @Column(name = "github_url", nullable = false)
     private String githubUrl;
+
+    @Column(name = "github_id", nullable = false)
+    private Long githubId;
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updatePoint(int point) {
+        this.point = point;
+    }
+
 }
