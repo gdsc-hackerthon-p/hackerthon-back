@@ -35,24 +35,6 @@ public class UserController {
                 "유저 정보 조회 성공");
     }
 
-    //Github로 로그인 후 유저 생성
-    @Operation(summary = "[유저] Github로 로그인 후 유저 생성", description = "Github로 로그인 후 유저를 생성합니다.")
-    @PostMapping("/")
-    public ApiResponse<Long> createUserWithGithubAccount(@RequestBody CreateUserDto createUserDto) throws IOException {
-        GHUser githubUser = githubService.getGithubUser(createUserDto.getGithubId());
-        int commitStreak = githubService.getCommitStreak(createUserDto.getGithubId());
-
-        User user = User.builder()
-                .githubId(createUserDto.getGithubId())
-                .githubEmail(githubUser.getEmail())
-                .commitStreak(commitStreak)
-                .nickname(createUserDto.getNickname())
-                .point(0)
-                .build();
-
-        return ApiResponse.success(userService.createUserWithGithubAccount(user).getId(), "유저 생성 성공");
-    }
-
     //유저 닉네임 변경
     @Operation(summary = "[유저] 유저 닉네임 변경", description = "유저의 닉네임을 변경합니다.")
     @PutMapping("/nickname/{userId}")

@@ -8,6 +8,7 @@ import com.gdsc.hackerthon.util.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public String encryptPassword(String password) {
+        return passwordEncoder.encode(password);
+    }
+
     @Override
     public User createUserWithGithubAccount(User user) {
         if (userRepository.existsById(user.getId())) {
@@ -29,7 +37,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getUserInfo(Long id) {
+    public Boolean login(String githubEmail, String password) {
+        User user = userRepository.findByGithubEmail(githubEmail).orElseThrow(()
+                -> new UserException(ResponseCode.USER_NOT_FOUND));
+
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+
+    @Override
+    public User getUserInfoWithEmail(String email) {
+        return userRepository.findByGithubEmail(email).orElseThrow(()
+                -> new UserException(ResponseCode.USER_NOT_FOUND));
+    }
+
+    @Override
+    public User getUserInfoWithId(Long id) {
         return userRepository.findById(id).orElseThrow(()
                 -> new UserException(ResponseCode.USER_NOT_FOUND));
     }
