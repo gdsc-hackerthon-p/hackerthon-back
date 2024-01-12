@@ -6,9 +6,9 @@ import com.gdsc.hackerthon.util.api.ResponseCode;
 import com.gdsc.hackerthon.util.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 @Service
