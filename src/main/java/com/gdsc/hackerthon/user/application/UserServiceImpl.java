@@ -73,4 +73,21 @@ public class UserServiceImpl implements UserService{
             throw new UserException(ResponseCode.USER_NOT_FOUND);
         }
     }
+
+    public List<User> findRival(Long userId){
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null){
+            return null;
+        }
+        int userPoint = user.getPoint();
+        return userRepository.findRival(userPoint);
+    }
+
+    public void updatePoint(Long userId, int newPoint){
+        User userPoint = userRepository.findById(userId).orElse(null);
+        if (userPoint != null){
+            userPoint.getPoint();
+            userRepository.save(userPoint);
+        }
+    }
 }

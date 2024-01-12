@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByGithubId(Long githubId);
 
+    List<User> findRival(int point);
+
     @Modifying
     @Transactional
     @Query("update user u set u.point = :point where u.id = :id")
