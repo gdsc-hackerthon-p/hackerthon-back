@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hackerthon-deployment
+  namespace: hackerthon
+spec:
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: hackerthon
+  template:
+    metadata:
+      labels:
+        app: hackerthon
+    spec:
+      containers:
+        - name: hackerthon
+          image: synoti21/hackerthon-backend:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - secretRef:
+                name: hackerthon-secret
+          resources:
+            requests:
+              memory: "2G"
+              cpu: 0.2
+            limits:
+              memory: "4G"
+              cpu: 1
+          ports:
+            - containerPort: 8080
+#          readinessProbe:
+#            httpGet:
+#              path: /swagger-ui/index.html
+#              port: 8080
+#            initialDelaySeconds: 40
+#            periodSeconds: 5
+#            failureThreshold: 24
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hackerthon-svc
+  namespace: hackerthon
+spec:
+  selector:
+    app: hackerthon
+  ports:
+    - protocol: TCP
+      port: 7000
+      targetPort: 8080
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: hackerthon-route
+  namespace: hackerthon
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`hackerthon.thisiswandol.com`)
+      kind: Rule
+      services:
+        - name: hackerthon-svc
+          port: 7000
+  tls:
+    certResolver: myresolver
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hackerthon-hpa
+  namespace: hackerthon
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: hackerthon-deployment
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 50
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
