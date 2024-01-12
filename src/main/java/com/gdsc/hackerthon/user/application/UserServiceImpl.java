@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService{
             return null;
         }
         int userPoint = user.getPoint();
-        return userRepository.findRival(userPoint);
+        return userRepository.findByPoint(userPoint);
     }
 
     public void updatePoint(Long userId, int newPoint){
@@ -132,4 +132,6 @@ public class UserServiceImpl implements UserService{
             userRepository.save(userPoint);
         }
     }
+
+
 }

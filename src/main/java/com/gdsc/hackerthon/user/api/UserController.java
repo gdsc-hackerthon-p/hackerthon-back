@@ -79,6 +79,8 @@ public class UserController {
         userService.updatePoint(userId, newPoint);
         return ApiResponse.success(null,"포인트 업데이트 성공");
     }
+
+
 /*
     @PutMapping("/rival/{userId}")
     public ApiResponse<Void> updateRival(@PathVariable Long userId, @RequestBody UserRival point){
@@ -120,4 +122,8 @@ public class UserController {
         rivalService.deleteRival(requestId);
         return ApiResponse.success(null,"라이벌 삭제 성공");
     }
+
+
 }
+
+

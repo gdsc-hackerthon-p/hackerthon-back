@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByGithubId(String githubId);
 
-    List<User> findRival(int point);
+    List<User> findByPoint(int point);
 
     @Modifying
     @Transactional

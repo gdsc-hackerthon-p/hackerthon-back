@@ -10,10 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface RivalRepository extends JpaRepository<UserRival,Long> {
 
-    @Transactional
     @Query("SELECT ur FROM user_rival ur WHERE ur.toUserId = :userId OR ur.fromUserId = :userId")
     List<UserRival> findRival(@Param("userId") Long userId);
 
 
 
 }
+
+

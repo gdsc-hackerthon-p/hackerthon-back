@@ -35,6 +35,7 @@ public class RivalServiceImpl implements RivalService{
     }
 
      */
+
     @Override
     public void addRival(Long userId, Long rivalId){
         if (!userRepository.existsById(rivalId)){
@@ -67,3 +68,5 @@ public class RivalServiceImpl implements RivalService{
     }
 
 }
+
+
