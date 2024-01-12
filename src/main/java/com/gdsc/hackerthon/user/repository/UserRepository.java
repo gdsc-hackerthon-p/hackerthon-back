@@ -14,6 +14,8 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByGithubEmail(String githubEmail);
+
+    Optional<User> findByUsername(String username);
     Page<User> findAllByOrderByPointDesc(Pageable pageable);
 
     boolean existsByGithubId(String githubId);
