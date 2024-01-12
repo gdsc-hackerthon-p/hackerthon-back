@@ -30,7 +30,7 @@ public class CheckController {
     @PostMapping("/{id}")
     public ApiResponse<Check> createCheck(@RequestBody Check check) {
         Check createdCheck = checkService.createCheck(check);
-        return ApiResponse.success(checkService.createCheck(createdCheck),"방명록 글쓰기 성공");
+        return ApiResponse.success(createdCheck,"방명록 글쓰기 성공");
     }
 
     @DeleteMapping("/{id}")
@@ -48,7 +48,7 @@ public class CheckController {
     @GetMapping("/{id}")
     public ApiResponse<Check> getCheck(@PathVariable Long id) {
         Check check = checkService.getCheck(id);
-        return ApiResponse.success(checkService.getCheck(id),"방명록 글 조회 성공");
+        return ApiResponse.success(check,"방명록 글 조회 성공");
     }
 
     @GetMapping("/AllChecksInDate")
@@ -57,7 +57,7 @@ public class CheckController {
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Check> check = checkService.getAllChecksInDate(pageable, checkDate);
-        return ApiResponse.success(checkService.getAllChecksInDate(pageable,checkDate),"날짜별 조회 성공");
+        return ApiResponse.success(check,"날짜별 조회 성공");
     }
 
 
