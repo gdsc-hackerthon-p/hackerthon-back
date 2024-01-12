@@ -36,6 +36,6 @@ public interface UserService {
     void resetAllUserPoint();
     //유저의 포인트 계산
     int calculateUserPoint(User user);
-    //List<User> findRival(Long userId);
-    //void updatePoint(Long userId, int newPoint);
+    List<User> findRival(Long userId);
+    void updatePoint(Long userId, int newPoint);
 }
