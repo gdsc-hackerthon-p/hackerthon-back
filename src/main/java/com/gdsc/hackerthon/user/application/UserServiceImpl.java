@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService{
             throw new UserException(ResponseCode.USER_NOT_FOUND);
         }
     }
-
+/*
     public List<User> findRival(Long userId){
         User user = userRepository.findById(userId).orElse(null);
         if (user == null){
@@ -132,4 +132,6 @@ public class UserServiceImpl implements UserService{
             userRepository.save(userPoint);
         }
     }
+
+ */
 }

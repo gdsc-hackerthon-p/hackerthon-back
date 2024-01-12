@@ -1,6 +1,6 @@
 package com.gdsc.hackerthon.user.api;
 
-import com.gdsc.hackerthon.user.application.RivalService;
+//import com.gdsc.hackerthon.user.application.RivalService;
 import com.gdsc.hackerthon.user.domain.User;
 import com.gdsc.hackerthon.user.domain.UserRival;
 import com.gdsc.hackerthon.github.application.GithubService;
@@ -29,7 +29,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final RivalService rivalService;
+//    private final RivalService rivalService;
     private final GithubService githubService;
     //유저 정보 조회
     @GetMapping("/info/{userId}")
@@ -68,7 +68,7 @@ public class UserController {
         List<UserRival> rivalId = rivalService.getRival(userId);
         return ApiResponse.success(rivalId,"라이벌 조회 성공");
     }*/
-
+/*
     @GetMapping("/rival/list")
     public ApiResponse<List<User>> comparePoints(@PathVariable Long userId) {
         return ApiResponse.success(userService.findRival(userId),"라이벌 조회 성공");
@@ -101,7 +101,7 @@ public class UserController {
         return ApiResponse.success(null, "유저 포인트 업데이트 성공");
     }
 
-
+/*
     @PostMapping("/rival")
     public ApiResponse<Void> addRival(Long userId, Long rivalId){
         rivalService.addRival(userId,rivalId);
@@ -120,4 +120,6 @@ public class UserController {
         rivalService.deleteRival(requestId);
         return ApiResponse.success(null,"라이벌 삭제 성공");
     }
+
+ */
 }
