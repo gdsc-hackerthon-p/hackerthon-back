@@ -17,4 +17,3 @@ public interface RivalRepository extends JpaRepository<UserRival,Long> {
 
 }
 
-

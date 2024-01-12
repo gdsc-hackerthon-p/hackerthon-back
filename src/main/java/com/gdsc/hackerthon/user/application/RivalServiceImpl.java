@@ -69,4 +69,3 @@ public class RivalServiceImpl implements RivalService{
 
 }
 
-

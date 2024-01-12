@@ -20,7 +20,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByGithubId(String githubId);
 
+
     List<User> findByPoint(int point);
+
+    
 
     @Modifying
     @Transactional
